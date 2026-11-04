@@ -1,16 +1,17 @@
 import platform
+from models import OSInfo, SystemInfo
 
-def collect_sysinfo():
-    sys_info = {
-        "hostname" : platform.node(),
-        "os": {
-            "system": platform.system(),
-            "release": platform.release(),
-            "version": platform.version(),
-            "architecture": platform.architecture()
-        }
-    }
+def collect_sysinfo() -> SystemInfo:
+    os_data = OSInfo(
+        system=platform.system(),
+        release=platform.release(),
+        version=platform.version(),
+        architecture=platform.architecture()
+    )
 
-    print(sys_info)
+    return SystemInfo(
+        hostname=platform.node(),
+        os=os_data
+    )
 
-collect_sysinfo()
+print(collect_sysinfo())
