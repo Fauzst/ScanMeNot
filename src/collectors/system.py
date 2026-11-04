@@ -1,5 +1,5 @@
 import platform
-from models import OSInfo, SystemInfo
+from .models import OSInfo, SystemInfo
 
 def collect_sysinfo() -> SystemInfo:
     os_data = OSInfo(
@@ -13,5 +13,3 @@ def collect_sysinfo() -> SystemInfo:
         hostname=platform.node(),
         os=os_data
     )
-
-print(collect_sysinfo())
