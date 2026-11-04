@@ -14,7 +14,7 @@
 - `TODO.md` is the roadmap and the source of design conventions: collectors gather data only, `return` instead of `print()`, keep detection/analysis separate from collection, never delete or quarantine files.
 - `src/collectors/models.py` defines dataclasses (`OSInfo`, `SystemInfo`). Collectors return dataclass instances, not dicts.
 - `src/main.py` is still a Hello World placeholder; the real work is in `src/collectors/`.
-- `src/collectors/system.py` has a module-level `print(collect_sysinfo())`, so importing it writes to stdout. Flag this side effect; don't hide it in test helpers.
+- `src/collectors/system.py` is side-effect free on import; keep it that way (no module-level execution or printing).
 - `src/installers/*.ps1` are Windows setup/bootstrap scripts (NuGet, WinGet), not part of the Python package or the pytest run.
 - Windows security collectors will require admin rights and must handle unavailable/unsupported features gracefully. Expect platform-dependent behavior.
 
@@ -29,5 +29,6 @@
 
 - `pytest.ini` sets `pythonpath = src`, so tests import `from collectors.system import collect_sysinfo`. Always run from the repo root; running from inside `test/` breaks imports.
 - Tests live in `test/` (singular), not `tests/`; files must match `test_*.py`.
-- Current baseline (verify before relying on it): the 5 tests in `test/test_collect-device.py` fail. They expect a `dict` with `hardware`/`uptime`, while `collect_sysinfo()` returns `SystemInfo`. Do not "fix" this by editing `src/`; align the tests or propose the contract change to the human.
+- Current baseline (verify before relying on it): `python -m pytest` gives **11 passed, 2 xfailed**. The 2 strict xfails cover hardware and uptime collection, which are not implemented yet (TODO 2.1). When implementing them, convert the xfails into real tests.
+- Do not "fix" failing tests by editing `src/`; align the tests or propose the contract change to the human.
 - No `requirements.txt`/`pyproject.toml` and no CI. Do not assume planned dependencies such as `psutil` are installed; verify first.
