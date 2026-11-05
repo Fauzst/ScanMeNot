@@ -57,3 +57,4 @@ def test_main_entrypoint_runs_without_error():
 
     assert result.returncode == 0, result.stderr
     assert "Traceback" not in result.stderr
+    assert "processes" in result.stdout

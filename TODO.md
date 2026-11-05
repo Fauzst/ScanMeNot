@@ -59,7 +59,7 @@
 
 ### 2.4 Runtime Information — Future Enhancement
 
-- [ ] Collect running processes.
+- [x] Collect running processes.
 - [ ] Collect active network connections.
 - [ ] Identify listening ports.
 - [ ] Collect startup applications.
